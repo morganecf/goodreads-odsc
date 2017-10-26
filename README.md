@@ -17,8 +17,8 @@ Python (or a tool that will allow you to serve files to your local host) and a m
    * This allows D3 to load data, which is served by this simple python webserver hosting our directory. If we try to load data directly from our filesystem without a server, we'll get a cross origin request error -- D3 thinks it's loading data from a url different from our origin domain (the local filesystem).
 4. If not on Mac/Linux, which come with a python installation, there are google-able alternatives. If you have node, you can run `npm install http-server -g` and launch `http-server`.
 5. If setting up a server doesn't work, one alternative is to simply save a small subset of the data as a JavaScript object and load that file as you would any other `.js` file. This is already done for you. The data is stored in a variable in `data/sample-data.js`. Simply uncomment the line loading this file in `main.html` and you'll be able to access the data in an object named `data`. This isn't the recommended way of loading data but will work just fine for demo purposes.
-5. Go to your localhost (ex: `0.0.0.0:8000`). You should see a directory listing. Open up `workshop/main.html`
-   * If you're not using a localhost, directly open up `main.html` in your browser (ex: `file://user/Users/morgane/imdb-odsc/workshop/main.html`)
+5. Go to your localhost (ex: `0.0.0.0:8000`). You should see a directory listing. Open up `index.html`
+   * If you're not using a localhost, directly open up `index.html` in your browser (ex: `file://user/Users/morgane/goodreads-odsc/index.html`)
 7. Open up the dev console (`option+command+i` or right click and "inspect element" then click on the console).
 8. Type `d3`, and you should be able to view the D3 library and all its properties.
 
