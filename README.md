@@ -11,7 +11,9 @@ Intro to D3 using Goodreads data
 - Histogram of books published by year (or scatter/line)
 - Average rating of books by year 
 - Average rating of books by year (by category)
+- Average rating of books by year normalized by # of ratings
 - Number of ratings over time by category (as an indication of which categories gain/lose popularity)
 - Force network of books linked by users who rated book (weighted by count or average rating)
 - Force network of books linked by tags (weighted by count)
 - to_read vs rated: stacked bar chart by category
+
