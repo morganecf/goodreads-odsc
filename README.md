@@ -5,6 +5,9 @@ the 2017 [Open Data Science Conference West](https://odsc.com/california).
 
 **IMPORTANT UPDATE:** We will be adding code and data to this repository for the next couple of days. Please make sure to check that your repository is up to date before the conference.
 
+### Requirements
+Python (or a tool that will allow you to serve files to your local host) and a modern browser. We'll be using Chrome. You can follow along without a server, but we strongly recommend you follow the instructions for serving files below.
+
 ### Setting up
 1. Clone or download this repository.
 2. `cd` inside the repository.
