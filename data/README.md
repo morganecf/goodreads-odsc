@@ -10,3 +10,6 @@ used under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
 | --- | --- |
 | books.json | Map of book IDs to book attributes |
 | tags.json | Map of tag names to books with tag |
+| user_network_100.json | Nodes and edges for user-based book network (limited to top 100 books) |
+| user_network_500.json | Nodes and edges for user-based book network (limited to top 500 books) |
+| user_network_1000.json | Nodes and edges for user-based book network (limited to top 1000 books) |
