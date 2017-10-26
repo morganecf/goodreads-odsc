@@ -1,5 +1,7 @@
 # goodreads-odsc
-Intro to D3 using Goodreads data
+
+Example code and data for the "Introduction to Data Visualization Using D3.js" workshop at
+the 2017 [Open Data Science Conference West](https://odsc.com/california).
 
 - Scatter plot
 - Line plot
@@ -17,3 +19,7 @@ Intro to D3 using Goodreads data
 - Force network of books linked by tags (weighted by count)
 - to_read vs rated: stacked bar chart by category
 
+## License
+
+Example code and data is licensed under the
+[Creative Commons Attribution Share Alike 4.0 license](https://choosealicense.com/licenses/cc-by-sa-4.0/)
