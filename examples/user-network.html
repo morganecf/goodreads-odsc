@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Goodreads User Network</title>
+</head>
+<body>
+  <div class="chart-container"></div>
+</body>
+
+<script src="../lib/d3/d3.min.js"></script>
+<script src="../src/network.js"></script>
+<script>
+  d3.json('../data/user_network_500.json', data => {
+    console.log('user network data:', data);
+    // network(data);
+  });
+</script>
+</html>

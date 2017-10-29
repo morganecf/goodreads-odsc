@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Popular Goodreads Tags</title>
+</head>
+<body>
+  <div class="book-tags"></div>
+  <div class="total-tags"></div>
+</body>
+
+<script src="../lib/d3/d3.min.js"></script>
+<script src="../lib/lodash/lodash.min.js"></script>
+<script src="../src/horizontal-bar-graph.js"></script>
+<script>
+  d3.json('../data/tags.json', data => {
+    console.log('tags:', data);
+
+    const tags = Object.keys(data);
+
+    // For each tag, sum up the number of books applied to this tag
+    const bookTagData = tags.map(tag => ({ name: tag, count: data[tag].length }));
+
+    // For each tag, sum up the total number of times this tag has been used
+    const totalTagData = tags.map(tag => ({ name: tag, count: _.sumBy(data[tag], d => d.tag_count) }));
+
+    // Only plot the top 50
+    const bookTagDataTop50 = _.sortBy(bookTagData, d => d.count).slice(0, 50);
+    const totalTagDataTop50 = _.sortBy(totalTagData, d => d.count).slice(0, 50);
+
+    // We'll draw the bar graphs in these elements
+    const bookTagEl = d3.select('.book-tags');
+    const totalTagEl = d3.select('.total-tags');
+
+    horizontalBarGraph(bookTagDataTop50, bookTagEl);
+    // horizontalBarGraph(totalTagDataTop50, totalTagData);
+  });
+</script>
+</html>
