@@ -26,7 +26,7 @@ function histogram(data, el, numBins=50, options={width: 600, height: 300}) {
   const yscale = d3.scaleLinear().domain(yrange).range([options.height, 0]);
 
   // Initialize the x and y axis generators.
-  const xaxis = d3.axisBottom().scale(xscale).tickFormat(d => new Date(d).getFullYear());
+  const xaxis = d3.axisBottom().scale(xscale).tickFormat(d => d.toString());
   const yaxis = d3.axisLeft().scale(yscale);
 
   // Draw the svg container

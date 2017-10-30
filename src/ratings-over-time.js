@@ -23,7 +23,7 @@ function ratingsOverTime(data, el, numBins=100, options={width: 600, height: 300
   const xscale = d3.scaleLinear().domain(xrange).range([margin.left, options.width]);
   const yscale = d3.scaleLinear().domain(yrange).range([options.height, 0]);
 
-  const xaxis = d3.axisBottom().scale(xscale).tickFormat(d => new Date(d).getFullYear());
+  const xaxis = d3.axisBottom().scale(xscale).tickFormat(d => d.toString());
   const yaxis = d3.axisLeft().scale(yscale);
 
   // This function will generate pixel values for a line of the ratings over time
