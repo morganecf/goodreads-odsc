@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Goodreads Publications Over Time</title>
+</head>
+<body>
+  <div class="graph-container"></div>
+</body>
+
+<script src="../lib/d3/d3.min.js"></script>
+<script src="../lib/lodash/lodash.min.js"></script>
+<script src="../src/histogram.js"></script>
+<script>
+  // There are about 10k books
+  d3.json('../data/books.json', data => {
+    // Convert data to array and filter out less recent dates
+    const dataArray = Object.keys(data)
+      .map(d => data[d])
+      .filter(d => d.pub_year > 1700);
+
+    // Plot a histogram of books published over time in this element
+    const el = d3.select('.graph-container');
+
+    histogram(dataArray, el);
+  });
+</script>
+</html>
