@@ -13,8 +13,11 @@
 <script src="../src/over-time.js"></script>
 <script>
   d3.json('../data/books.json', data => {
-    // Plot historical "quality" of book
-    // Also plot number of ratings over time to sanity check trends
+    // Plot the historical "quality" of the goodreads book. How do ratings change for newer
+    // or older books? We also plot the number of ratings over the book's publishing year
+    // to sanity check any trends we see. Volatility might be due to a statistically insignificant
+    // number of ratings.
+
   });
 </script>
 </html>
