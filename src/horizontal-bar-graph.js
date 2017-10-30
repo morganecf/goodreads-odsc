@@ -7,7 +7,7 @@ function horizontalBarGraph(data, el, options={width: 500, height: 1000}) {
   };
 
   const yscaleRange = [margin.top, options.height];
-  const xscaleRange = [margin.left, options.width];
+  const xscaleRange = [0, options.width];
 
   // The range (min and max) of the data. For example, if we have count values between
   // 0 and 100, this will give us [0, 100].
@@ -44,7 +44,7 @@ function horizontalBarGraph(data, el, options={width: 500, height: 1000}) {
     .call(yaxis);
   svg.append('g')
     .attr('class', 'axis')
-    .attr('transform', `translate(0, ${margin.top})`)
+    .attr('transform', `translate(${margin.left}, ${margin.top})`)
     .call(xaxis);
 
   // scaleBand exposes a useful function that gives us the width of each band, or tick,
