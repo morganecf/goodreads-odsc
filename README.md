@@ -39,5 +39,8 @@ d3.json('data/data.json', data => {
 Example code and data is licensed under the
 [Creative Commons Attribution Share Alike 4.0 license](https://choosealicense.com/licenses/cc-by-sa-4.0/)
 
-[D3.js](https://d3js.org/) is copyright [Mike Bostock](https://github.com/mbostock) and licensed under the
-[BSD 3-clause license](https://github.com/d3/d3/blob/master/LICENSE).
+This repository includes the following third party libraries:
+* [D3.js](https://d3js.org/) is copyright [Mike Bostock](https://github.com/mbostock) and licensed under the
+  [BSD 3-clause license](https://github.com/d3/d3/blob/master/LICENSE).
+* [Lodash](https://lodash.com/) is copyright [JS Foundation](https://js.foundation) and licensed under the
+  [MIT license](https://github.com/lodash/lodash/blob/master/LICENSE).
