@@ -9,15 +9,22 @@
 </body>
 
 <script src="../lib/d3/d3.min.js"></script>
-<script src="../lib/lodash/lodash.min.js"></script>
-<script src="../src/over-time.js"></script>
+<script src="../src/ratings-over-time.js"></script>
 <script>
   d3.json('../data/books.json', data => {
-    // Plot the historical "quality" of the goodreads book. How do ratings change for newer
+    // Plot the historical "quality" of the goodreads books. How do ratings change for newer
     // or older books? We also plot the number of ratings over the book's publishing year
     // to sanity check any trends we see. Volatility might be due to a statistically insignificant
     // number of ratings.
 
+    // Convert data to array and keep books that were published after 1850
+    const dataArray = Object.keys(data)
+      .map(d => data[d])
+      .filter(d => d.pub_year > 1850);
+
+    const el = d3.select('.graph-container');
+
+    ratingsOverTime(dataArray, el);
   });
 </script>
 </html>

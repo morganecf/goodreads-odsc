@@ -14,7 +14,7 @@
 <script>
   // There are about 10k books
   d3.json('../data/books.json', data => {
-    // Convert data to array and filter out less recent dates
+    // Convert data to array and keep books that were published after 1700
     const dataArray = Object.keys(data)
       .map(d => data[d])
       .filter(d => d.pub_year > 1700);
