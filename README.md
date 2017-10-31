@@ -34,6 +34,11 @@ d3.json('data/data.json', data => {
 });
 ```
 
+## Reference
+
+* [D3 API](https://github.com/d3/d3/blob/master/API.md)
+* [More D3 resources](https://github.com/d3/d3#resources)
+
 ## License
 
 Example code and data is licensed under the
