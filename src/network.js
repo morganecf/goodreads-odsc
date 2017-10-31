@@ -120,10 +120,9 @@ function network(data) {
   // Formats HTML for the link tooltips: show the two
   // book titles and the tags they have in common.
   function linkTooltipContent(d) {
-    const link = d.source.title + ', ' + d.target.title;
     return `
-      <strong>${link}</strong>
-      <p>${d.overlap_size} tags in common</p>
+      <strong>${d.source.title} &mdash; ${d.target.title}</strong>
+      <p>${d.overlap_size} in common</p>
       <ul>${d.overlap_sample.map(tag => `<li>${tag}</li>`).join('')}</ul>
     `;
   }
