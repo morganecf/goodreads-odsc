@@ -11,7 +11,7 @@ function network(data) {
   // strength causes nodes to attract each other -- this will
   // cause nodes to collapse into each other. A negative strength
   // causes nodes to repel each other.
-  const forceCharge = d3.forceManyBody().strength(-30);
+  const forceCharge = d3.forceManyBody().strength(-15);
 
   // A centering force centers the simulation at the given coordinates
   const forceCenter = d3.forceCenter(center.x, center.y);
@@ -68,9 +68,23 @@ function network(data) {
     .attr('r', 5)
     .attr('fill', d => color(d.average_rating));
 
+  // Only use edges that are in the nth percentile of all edges based
+  // on number of overlapping tags. Limiting the number of edges used
+  // in the network makes clusters of related books more obvious at
+  // the expense of losing some relations entirely.
+  function topEdges(percentile) {
+    const overlapExtent = d3.extent(data.edges, d => d.overlap_size);
+    return function(edge) {
+      return ((edge.overlap_size - overlapExtent[0]) / (overlapExtent[1] - overlapExtent[0])) > (percentile / 100);
+    }
+  }
+
+  // Try varying this number to see its effect on the network.
+  const edges = data.edges.filter(topEdges(60));
+
   // Start the simulation
   simulation.nodes(data.nodes).on('tick', tick);
-  simulation.force('link').links(data.edges);
+  simulation.force('link').links(edges);
 
   // This function is called on every "tick", or unit of time,
   // of the simulation. In each tick, D3 generates new node
