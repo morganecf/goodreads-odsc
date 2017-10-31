@@ -44,7 +44,17 @@ function horizontalBarGraph(el, options={width: 500, height: 1000}) {
     .attr('class', 'axis')
     .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
+  // Formats HTML for the bar tooltips: show the tag, value, and a sample of the books
+  // associated with the tag.
+  function barTooltipContent(d) {
+    return `
+      <strong>${d.name}</strong>
+      <p>${d.count}</p>
+      <p>${d.sample}</p>
+    `;
+  }
 
+  // Call this function each time we want to update the graph with new data
   function update(data, transitionY=false) {
     // The range (min and max) of the data. For example, if we have count values between
     // 0 and 100, this will give us [0, 100].
@@ -103,6 +113,17 @@ function horizontalBarGraph(el, options={width: 500, height: 1000}) {
       .attr('y', d => yscale(d.name) + 1)   // Add 1 to give some space between bars
       .attr('x', margin.left + 1)           // Add 1 to give some space between axis and bar
       .attr('width', d => xscale(d.count));
+
+    // Finally, add a tooltip to each bar using the d3-tip tooltip library.
+    const tip = d3.tip()
+      .attr('class', 'tooltip')
+      .html(barTooltipContent);
+
+    svg.call(tip);
+
+    selection
+      .on('mouseover', tip.show)
+      .on('mouseout', tip.hide);
   }
 
   return { update };

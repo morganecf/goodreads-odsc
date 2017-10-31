@@ -25,47 +25,57 @@
 </body>
 
 <script src="../lib/d3/d3.min.js"></script>
+<script src="../lib/d3-tip/d3-tip.min.js"></script>
 <script src="../lib/lodash/lodash.min.js"></script>
 <script src="../src/horizontal-bar-graph.js"></script>
 <script>
   d3.json('../data/tags.json', data => {
-    console.log('tags:', data);
+    d3.json('../data/books.json', books => {
+      console.log('tags:', data);
+      console.log('books:', books);
 
-    const tags = Object.keys(data);
+      // For each tag, grab a sample of book associated with this tag. We'll show these in a toolip.
+      function getSample(tag) {
+        const topBooks = _.sortBy(data[tag], d => -d.tag_count).slice(0, 5);
+        return topBooks.map(d => books[d.book_id].title).join(', ');
+      }
 
-    // For each tag, sum up the number of books with this tag. We also include a sample of the books
-    // associated with that tag that we'll show in a toolip.
-    const byBookCount = tags.map(tag => ({ name: tag, count: data[tag].length, sample: data[tag].slice(0, 5) }));
+      const tags = Object.keys(data);
 
-    // For each tag, sum up the total number of times this tag has been used
-    const byTagCount = tags.map(tag => ({ name: tag, count: _.sumBy(data[tag], d => d.tag_count), sample: data[tag].slice(0, 5) }));
+      // For each tag, sum up the number of books with this tag. We also include a sample of the books
+      // associated with that tag that we'll show in a toolip.
+      const byBookCount = tags.map(tag => ({ name: tag, count: data[tag].length, sample: getSample(tag) }));
 
-    // For each tag, get the normalized counts
-    const byNormalized = tags.map(tag => ({ name: tag, count: _.sumBy(data[tag], d => d.tag_count) / data[tag].length, sample: data[tag].slice(0, 5) }));
+      // For each tag, sum up the total number of times this tag has been used
+      const byTagCount = tags.map(tag => ({ name: tag, count: _.sumBy(data[tag], d => d.tag_count), sample: getSample(tag) }));
 
-    // We'll draw the bar graphs in these elements
-    const el = d3.select('.chart-container');
-    const graph = horizontalBarGraph(el);
-    graph.update(byTagCount);
+      // For each tag, get the normalized counts
+      const byNormalized = tags.map(tag => ({ name: tag, count: _.sumBy(data[tag], d => d.tag_count) / data[tag].length, sample: getSample(tag) }));
 
-    let currData = byTagCount;
-
-    // Update the graph with different views when click on button
-    document.getElementById('by-tag').addEventListener('click', () => {
-      currData = byTagCount;
+      // We'll draw the bar graphs in these elements
+      const el = d3.select('.chart-container');
+      const graph = horizontalBarGraph(el);
       graph.update(byTagCount);
-    });
-    document.getElementById('by-book').addEventListener('click', () => {
-      currData = byBookCount;
-      graph.update(byBookCount);
-    });
-    document.getElementById('by-normalized').addEventListener('click', () => {
-      currData = byNormalized;
-      graph.update(byNormalized);
-    });
-    document.getElementById('sort').addEventListener('click', () => {
-      const sorted = _.sortBy(currData, d => -d.count);
-      graph.update(sorted, transitionY=true);
+
+      let currData = byTagCount;
+
+      // Update the graph with different views when click on button
+      document.getElementById('by-tag').addEventListener('click', () => {
+        currData = byTagCount;
+        graph.update(byTagCount);
+      });
+      document.getElementById('by-book').addEventListener('click', () => {
+        currData = byBookCount;
+        graph.update(byBookCount);
+      });
+      document.getElementById('by-normalized').addEventListener('click', () => {
+        currData = byNormalized;
+        graph.update(byNormalized);
+      });
+      document.getElementById('sort').addEventListener('click', () => {
+        const sorted = _.sortBy(currData, d => -d.count);
+        graph.update(sorted, transitionY=true);
+      });
     });
   });
 </script>
