@@ -1,4 +1,4 @@
-function histogram(data, el, numBins=50, options={width: 600, height: 300}) {
+function histogram(data, el, numBins=50, options={width: 1000, height: 500}) {
   const margin = {
     left: 50,
     bottom: 25,
@@ -13,6 +13,8 @@ function histogram(data, el, numBins=50, options={width: 600, height: 300}) {
 
   // Generate an array of bins
   const hist = histGenerator(data);
+
+  console.log("hist:", hist);
 
   const binSize = options.width / hist.length;
 
@@ -68,4 +70,40 @@ function histogram(data, el, numBins=50, options={width: 600, height: 300}) {
     .attr('y', d => yscale(d.length))
     .attr('height', d => options.height - yscale(d.length))
     .attr('opacity', 1);
+
+  // Finally, add a tooltip to each bar. We will do this by adding invisible bars over
+  // the histogram bars that are the height of the chart, so that it's easy to trigger
+  // the tooltip even if bins are extremely small. The tooltip shows the time range, a
+  // sample of books in that time range, and the average rating in that time range.
+  const tip = d3.tip()
+    .attr('class', 'tooltip')
+    .html(function (bin, i) {
+      if (bin.length > 0) {
+        const avgRating = d3.mean(bin, d => d.avg_rating);
+        const startYear = bin[0].pub_year;
+        const endYear = bin[bin.length - 1].pub_year;
+        const sample = bin.slice(0, 5).map(d => d.title).join(', ');
+        return `
+          <strong>${startYear} - ${endYear}</strong>
+          <p>Average rating: ${avgRating}</p>
+          <p>${sample}</p>
+        `;
+      }
+      return 'Empty bin';
+    });
+
+  svg.call(tip);
+
+  svg.selectAll('.tip-bar')
+    .data(hist)
+    .enter()
+    .append('rect')
+    .attr('class', 'tip-bar')
+    .attr('x', d => xscale(d.x0))
+    .attr('y', 200)
+    .attr('width', binSize - 1)
+    .attr('height', options.height)
+    .attr('opacity', 0)
+    .on('mouseover', tip.show)
+    .on('mouseout', tip.hide);
 }
