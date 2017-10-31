@@ -1,5 +1,5 @@
-const forceWidth = 800;
-const forceHeight = 800;
+const forceWidth = 2000;
+const forceHeight = 2000;
 const center = {x: forceWidth / 2, y: forceHeight / 2};
 
 function network(data) {
@@ -141,4 +141,10 @@ function network(data) {
   // Initialize the tooltips
   addToolTip(svg, node, nodeTooltipContent);
   addToolTip(svg, link, linkTooltipContent);
+
+  // Scroll to center of network
+  window.scrollTo(
+    (forceWidth - window.innerWidth) / 2,
+    (forceHeight - window.innerHeight) / 2
+  );
 }
