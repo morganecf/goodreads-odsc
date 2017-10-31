@@ -1,0 +1,15 @@
+.tooltip {
+  background: white;
+  border: 1px solid slategray;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.tooltip p {
+  margin: 0.5em 0;
+}
+
+.tooltip ul {
+  padding-left: 20px;
+  margin: 0;
+}

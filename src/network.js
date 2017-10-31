@@ -1,20 +1,19 @@
-const forceWidth = 1250;
-const forceHeight = 450;
+const forceWidth = 800;
+const forceHeight = 800;
 const center = {x: forceWidth / 2, y: forceHeight / 2};
 
 function network(data) {
   // Sets the node id accessor so that the force simulation
-  // knows that a node is uniquely identified by its name
-  const forceLink = d3.forceLink().id(d => d.name);
+  // knows that a node/book is uniquely identified by its title
+  const forceLink = d3.forceLink().id(d => d.title);
 
   // Force function that acts upon multiple bodies. A positive
   // strength causes nodes to attract each other -- this will
   // cause nodes to collapse into each other. A negative strength
   // causes nodes to repel each other.
-  const forceCharge = d3.forceManyBody().strength(-3);
+  const forceCharge = d3.forceManyBody().strength(-30);
 
-  // Creates a centering force, i.e., centers the simulation at
-  // the given x and y coordinates.
+  // A centering force centers the simulation at the given coordinates
   const forceCenter = d3.forceCenter(center.x, center.y);
 
   // Create a new simulation with the above forces
@@ -24,32 +23,41 @@ function network(data) {
     .force('center', forceCenter);
 
   // Create the svg element
-  const svg = createSvgContainer('#network', forceWidth, forceHeight, 0, 0);
+  const svg = d3.select('.chart-container')
+    .append('svg')
+    .attr('width', forceWidth)
+    .attr('height', forceHeight);
 
-  // Create a color scale for the movie ratings. The higher
-  // the rating, the redder the movie node.
-  const rating = d3.scaleLinear()
-    .domain([3, 9])
-    .range([red, blue]);
+  // Create a color scale for the book ratings. The higher
+  // the rating, the redder the book node.
+  const color = d3.scaleLinear()
+    .domain([3, 5])
+    .range([d3.rgb('blue'), d3.rgb('red')])
+    .interpolate(d3.interpolateHcl);
+
+  const strokeWidth = d3.scaleLinear()
+    .domain(d3.extent(data.edges, d => d.overlap_size))
+    .range([1, 3]);
 
   // Add links or edges as path elements. Group all of these
   // paths in a g element. Link width (thickness) represents
   // the edge weights. The higher the weight, i.e., the # of
-  // keywords a pair of movies has in common, the bigger the
+  // tags a pair of books has in common, the bigger the
   // width. Each edge or link represents a weighted connection
-  // between two movies, based on how many keywords they have
+  // between two books, based on how many tags they have
   // in common.
   const link = svg.append('g')
     .attr('class', 'links')
     .selectAll('.link')
-    .data(data.links)
+    .data(data.edges)
     .enter()
     .append('line')
     .attr('class', 'link')
-    .attr('stroke-width', d => d.overlap.length);
+    .attr('stroke', '#aaa')
+    .attr('stroke-width', d => strokeWidth(d.overlap_size));
 
   // Add node elements, grouped together. Each node represents
-  // a movie and is color-scaled based on its IMDB rating.
+  // a book and is color-scaled based on its average rating.
   const node = svg.append('g')
     .attr('class', 'nodes')
     .selectAll('.node')
@@ -58,11 +66,11 @@ function network(data) {
     .append('circle')
     .attr('class', 'node')
     .attr('r', 5)
-    .attr('fill', d => rating(d.score));
+    .attr('fill', d => color(d.average_rating));
 
   // Start the simulation
   simulation.nodes(data.nodes).on('tick', tick);
-  simulation.force('link').links(data.links);
+  simulation.force('link').links(data.edges);
 
   // This function is called on every "tick", or unit of time,
   // of the simulation. In each tick, D3 generates new node
@@ -86,20 +94,34 @@ function network(data) {
       .attr('cy', d => d.y);
   }
 
-  // Formats HTML for the node tooltips: show the movie
-  // name and its IMDB rating.
+  // Formats HTML for the node tooltips: show the book
+  // title and its average rating.
   function nodeTooltipContent(d) {
-    const movie = d.name;
-    const rating = d.score;
-    return contentToHtmlFormatter({movie, rating});
+    return `
+      <strong>${d.title}</strong>
+      <p>${d.average_rating}</p>
+    `;
   }
 
   // Formats HTML for the link tooltips: show the two
-  // movie names and the key words they have in common.
+  // book titles and the tags they have in common.
   function linkTooltipContent(d) {
-    const link = d.source.name + ', ' + d.target.name;
-    const keywords = d.overlap.join(', ');
-    return contentToHtmlFormatter({link, keywords});
+    const link = d.source.title + ', ' + d.target.title;
+    return `
+      <strong>${link}</strong>
+      <p>${d.overlap_size} tags in common</p>
+      <ul>${d.overlap_sample.map(tag => `<li>${tag}</li>`).join('')}</ul>
+    `;
+  }
+
+  function addToolTip(svg, selection, formatter) {
+    const tip = d3.tip()
+      .attr('class', 'tooltip')
+      .html(formatter);
+    svg.call(tip);
+    selection
+      .on('mouseover', tip.show)
+      .on('mouseout', tip.hide);
   }
 
   // Initialize the tooltips
