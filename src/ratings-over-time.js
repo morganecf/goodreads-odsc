@@ -1,4 +1,4 @@
-function ratingsOverTime(data, el, numBins=100, options={width: 600, height: 300}) {
+function ratingsOverTime(data, el, numBins=100, options={width: 1000, height: 400}) {
   const margin = {
     left: 50,
     bottom: 25,
@@ -46,10 +46,20 @@ function ratingsOverTime(data, el, numBins=100, options={width: 600, height: 300
     .call(yaxis);
 
   // Draw the line in a group element
-  svg.append('path')
+  const path = svg.append('path')
     .attr('class', 'line')
     .datum(hist)
     .attr('d', line)
     .attr('fill', 'none')
     .attr('stroke', 'red');
+
+  // Transition the line
+  const pathLength = path.node().getTotalLength();
+
+  path
+    .attr('stroke-dasharray', pathLength + " " + pathLength)
+    .attr('stroke-dashoffset', pathLength)
+    .transition()
+    .duration(2000)
+    .attr('stroke-dashoffset', 0);
 }

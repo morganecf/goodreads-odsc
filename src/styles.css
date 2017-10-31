@@ -35,3 +35,7 @@ button {
   padding-left: 20px;
   margin: 0;
 }
+
+.line {
+  stroke-width: 2px;
+}
