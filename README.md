@@ -42,5 +42,7 @@ Example code and data is licensed under the
 This repository includes the following third party libraries:
 * [D3.js](https://d3js.org/) is copyright [Mike Bostock](https://github.com/mbostock) and licensed under the
   [BSD 3-clause license](https://github.com/d3/d3/blob/master/LICENSE).
+* [d3-tip](http://labratrevenge.com/d3-tip/) is copyright [Justin Palmer](https://github.com/Caged) and licensed under the
+  [MIT license](https://github.com/Caged/d3-tip/blob/master/LICENSE).
 * [Lodash](https://lodash.com/) is copyright [JS Foundation](https://js.foundation) and licensed under the
   [MIT license](https://github.com/lodash/lodash/blob/master/LICENSE).
