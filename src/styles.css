@@ -1,3 +1,21 @@
+.example {
+  text-align: center;
+  font-family: 'Trebuchet MS';
+}
+
+.example p {
+  margin: 10px 70px;
+  text-align: left;
+}
+
+.chart-container {
+  margin-top: 20px;
+}
+
+button {
+  font-size: 14px;
+}
+
 .tooltip {
   background: white;
   border: 1px solid slategray;

@@ -3,10 +3,25 @@
 <head>
   <meta charset="utf-8">
   <title>Popular Goodreads Tags</title>
+
+  <link rel="stylesheet" href="../src/styles.css">
 </head>
 <body>
-  <div class="book-tags"></div>
-  <div class="total-tags"></div>
+  <div class="example">
+    <h2>Goodreads Tags by Popularity</h2>
+    <p>
+      What are the most popular tags on Goodreads? A tag is popular if many <strong>books</strong> have been tagged with it: it has widespread usage.
+      But a tag can also be popular if many <strong>readers</strong> have used it, perhaps on only a narrow set of books. For example, there may be
+      many instances of the tag "portuguese melancholy", but they might all be attributed to <i>The Book of Disquiet</i>, while the frequency of a
+      tag like "ebook" is due to its general application across a wide set of books. To get a sense of how <strong>unique</strong> vs.
+      <strong>widepsread</strong> a tag is, we can normalize its total usage by the number of books tagged with it.
+    </p>
+    <button id="by-tag">View by total tag count</button>
+    <button id="by-book">View by book count</button>
+    <button id="by-normalized">View by tag count / book count</button>
+    <button id="sort">Sort by value</button>
+    <div class="chart-container"></div>
+  </div>
 </body>
 
 <script src="../lib/d3/d3.min.js"></script>
@@ -18,22 +33,40 @@
 
     const tags = Object.keys(data);
 
-    // For each tag, sum up the number of books applied to this tag
-    const bookTagData = tags.map(tag => ({ name: tag, count: data[tag].length }));
+    // For each tag, sum up the number of books with this tag. We also include a sample of the books
+    // associated with that tag that we'll show in a toolip.
+    const byBookCount = tags.map(tag => ({ name: tag, count: data[tag].length, sample: data[tag].slice(0, 5) }));
 
     // For each tag, sum up the total number of times this tag has been used
-    const totalTagData = tags.map(tag => ({ name: tag, count: _.sumBy(data[tag], d => d.tag_count) }));
+    const byTagCount = tags.map(tag => ({ name: tag, count: _.sumBy(data[tag], d => d.tag_count), sample: data[tag].slice(0, 5) }));
 
-    // Only plot the top 50
-    const bookTagDataTop50 = _.sortBy(bookTagData, d => -d.count).slice(0, 50);
-    const totalTagDataTop50 = _.sortBy(totalTagData, d => -d.count).slice(0, 50);
+    // For each tag, get the normalized counts
+    const byNormalized = tags.map(tag => ({ name: tag, count: _.sumBy(data[tag], d => d.tag_count) / data[tag].length, sample: data[tag].slice(0, 5) }));
 
     // We'll draw the bar graphs in these elements
-    const bookTagEl = d3.select('.book-tags');
-    const totalTagEl = d3.select('.total-tags');
+    const el = d3.select('.chart-container');
+    const graph = horizontalBarGraph(el);
+    graph.update(byTagCount);
 
-    horizontalBarGraph(bookTagDataTop50, bookTagEl);
-    // horizontalBarGraph(totalTagDataTop50, totalTagData);
+    let currData = byTagCount;
+
+    // Update the graph with different views when click on button
+    document.getElementById('by-tag').addEventListener('click', () => {
+      currData = byTagCount;
+      graph.update(byTagCount);
+    });
+    document.getElementById('by-book').addEventListener('click', () => {
+      currData = byBookCount;
+      graph.update(byBookCount);
+    });
+    document.getElementById('by-normalized').addEventListener('click', () => {
+      currData = byNormalized;
+      graph.update(byNormalized);
+    });
+    document.getElementById('sort').addEventListener('click', () => {
+      const sorted = _.sortBy(currData, d => -d.count);
+      graph.update(sorted, transitionY=true);
+    });
   });
 </script>
 </html>
