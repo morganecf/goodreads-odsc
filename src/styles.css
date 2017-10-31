@@ -24,6 +24,7 @@ button {
   border: 1px solid slategray;
   border-radius: 10px;
   padding: 10px;
+  max-width: 400px;
 }
 
 .tooltip p {
