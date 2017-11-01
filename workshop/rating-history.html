@@ -23,20 +23,7 @@
 <script src="../lib/d3/d3.min.js"></script>
 <script src="../src/ratings-over-time.js"></script>
 <script>
-  d3.json('../data/books.json', data => {
-    // Convert data to array and only keep books that were published after 1850
-    const dataArray = Object.keys(data)
-      .map(d => data[d])
-      .filter(d => d.pub_year > 1850);
+  /* Place your code here! */
 
-    const el = d3.select('.chart-container');
-
-    const graph = ratingsOverTime(dataArray, el);
-
-    const button = document.getElementById('toggle-rating-counts');
-    button.addEventListener('click', () => {
-      graph.toggleCounts();
-    });
-  });
 </script>
 </html>

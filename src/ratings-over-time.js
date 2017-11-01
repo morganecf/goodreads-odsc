@@ -53,7 +53,10 @@ function ratingsOverTime(data, el, numBins=100, options={width: 1000, height: 40
     .attr('fill', 'none')
     .attr('stroke', 'red');
 
-  // Transition the line
+  // Transition the line. Dash offset and dash array can be used to create stroked lines.
+  // Setting these equivalent to the path length creates an invisible line. Gradually
+  // decrementing these properties from the total path length to 0 incrementally
+  // reveals the entire path.
   const pathLength = path.node().getTotalLength();
 
   path
@@ -62,4 +65,42 @@ function ratingsOverTime(data, el, numBins=100, options={width: 1000, height: 40
     .transition()
     .duration(2000)
     .attr('stroke-dashoffset', 0);
+
+  // Create the underlying histogram count bars. See histogram.js for more details.
+  const zrange = [0, d3.max(hist, d => d.length)];
+  const zscale = d3.scaleLinear().domain(zrange).range([options.height, 0]);
+
+  const bars = svg.selectAll('.bar')
+    .data(hist)
+    .enter()
+    .append('rect')
+    .attr('class', 'bar')
+    .attr('x', d => xscale(d.x0))
+    .attr('y', options.height)
+    .attr('width', binSize - 1)
+    .attr('height', 0)
+    .attr('fill', '#3A539B')
+    .attr('opacity', 0.5);
+
+  // Make sure line appears above the bars. Since we draw the bars after the line,
+  // they will be placed on top of the line. But we can use d3's raise function to
+  // raise the line above the bars.
+  path.raise();
+
+  // Keeps track of whether or not the bars are showing
+  let showingBars = false;
+
+  function toggleCounts() {
+    showingBars = !showingBars;
+
+    bars
+      .interrupt()
+      .transition()
+      .duration(250)
+      .delay((d, i) => i * (500 / hist.length))
+      .attr('y', d => showingBars ? zscale(d.length) : options.height)
+      .attr('height', d => showingBars ? options.height - zscale(d.length) : 0);
+  }
+
+  return { toggleCounts };
 }

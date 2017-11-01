@@ -1,4 +1,4 @@
-function ratingsPlot(data, el, options={width: 1000, height: 600}) {
+function ratingsPlot(data, el, options={width: 1000, height: 500}) {
   const margin = {
     left: 50,
     bottom: 50,
@@ -49,7 +49,7 @@ function ratingsPlot(data, el, options={width: 1000, height: 600}) {
       `;
     });
   svg.call(tip);
-  
+
   points
     .on('mouseover', tip.show)
     .on('mouseout', tip.hide);

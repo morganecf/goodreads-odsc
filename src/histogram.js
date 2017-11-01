@@ -14,8 +14,6 @@ function histogram(data, el, numBins=50, options={width: 1000, height: 500}) {
   // Generate an array of bins
   const hist = histGenerator(data);
 
-  console.log("hist:", hist);
-
   const binSize = options.width / hist.length;
 
   // Determine the range of the data along the x- and y-axes. The length of each
@@ -85,7 +83,8 @@ function histogram(data, el, numBins=50, options={width: 1000, height: 500}) {
         const sample = bin.slice(0, 5).map(d => d.title).join(', ');
         return `
           <strong>${startYear} - ${endYear}</strong>
-          <p>Average rating: ${avgRating}</p>
+          <p>Number of books: ${bin.length}</p>
+          <p>Average rating: ${avgRating.toFixed(2)}</p>
           <p>${sample}</p>
         `;
       }
@@ -100,7 +99,7 @@ function histogram(data, el, numBins=50, options={width: 1000, height: 500}) {
     .append('rect')
     .attr('class', 'tip-bar')
     .attr('x', d => xscale(d.x0))
-    .attr('y', 200)
+    .attr('y', 150)
     .attr('width', binSize - 1)
     .attr('height', options.height)
     .attr('opacity', 0)

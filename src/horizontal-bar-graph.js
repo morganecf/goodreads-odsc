@@ -1,5 +1,5 @@
 // This function expects an array of data of the form { name, count }.
-function horizontalBarGraph(el, options={width: 500, height: 1000}) {
+function horizontalBarGraph(el, options={width: 800, height: 1000}) {
   // Define the transition
   const transition = d3.transition().duration(500);
 

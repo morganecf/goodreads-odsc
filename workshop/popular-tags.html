@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Popular Goodreads Tags</title>
+
+  <link rel="stylesheet" href="../src/styles.css">
+</head>
+<body>
+  <div class="example">
+    <h2>Goodreads Tags by Popularity</h2>
+    <p>
+      What are the most popular tags on Goodreads? A tag is popular if many <strong>books</strong> have been tagged with it: it has widespread usage.
+      But a tag can also be popular if many <strong>readers</strong> have used it, perhaps on only a narrow set of books. For example, there may be
+      many instances of the tag "portuguese melancholy", but they might all be attributed to <i>The Book of Disquiet</i>, while the frequency of a
+      tag like "ebook" is due to its general application across a wide set of books. To get a sense of how <strong>unique</strong> vs.
+      <strong>widespread</strong> a tag is, we can normalize its total usage by the number of books tagged with it.
+    </p>
+    <button id="by-tag">View by total tag count</button>
+    <button id="by-book">View by book count</button>
+    <button id="by-normalized">View by tag count / book count</button>
+    <button id="sort">Sort by value</button>
+    <div class="chart-container"></div>
+  </div>
+</body>
+
+<script src="../lib/d3/d3.min.js"></script>
+<script src="../lib/d3-tip/d3-tip.min.js"></script>
+<script src="../lib/lodash/lodash.min.js"></script>
+<script src="../src/horizontal-bar-graph.js"></script>
+<script>
+  /* Place your code here! */
+
+</script>
+</html>
