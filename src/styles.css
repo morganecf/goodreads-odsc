@@ -11,6 +11,14 @@ body {
   text-align: left;
 }
 
+.overlay {
+  background: rgba(255,255,255,0.7);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
 .chart-container {
   margin-top: 20px;
 }
