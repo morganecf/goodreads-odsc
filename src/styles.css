@@ -40,3 +40,7 @@ button {
 .line {
   stroke-width: 2px;
 }
+
+.axis.tilted text {
+  transform: translate(17px, 15px) rotate(45deg);
+}

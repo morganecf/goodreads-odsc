@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Goodreads Ratings</title>
+
+  <link rel="stylesheet" href="../src/styles.css">
+</head>
+<body>
+  <div class="example">
+    <h2>Goodreads Ratings</h2>
+    <p>
+      Here we plot the average rating of books against the number of ratings they have received.
+      Are popular books that are read/rated more frequently also rated higher?
+    </p>
+    <div class="chart-container"></div>
+  </div>
+</body>
+
+<script src="../lib/d3/d3.min.js"></script>
+<script src="../lib/d3-tip/d3-tip.min.js"></script>
+<script src="../src/ratings-scatter.js"></script>
+<script>
+  d3.json('../data/books.json', data => {
+    // Convert data from object to array
+    const dataArray = Object.values(data);
+
+    const el = d3.select('.chart-container');
+
+    const graph = ratingsPlot(dataArray, el);
+  });
+</script>
+</html>
