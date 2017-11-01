@@ -75,6 +75,7 @@ function histogram(data, el, numBins=50, options={width: 1000, height: 500}) {
   // sample of books in that time range, and the average rating in that time range.
   const tip = d3.tip()
     .attr('class', 'tooltip')
+    .offset([200, 0])
     .html(function (bin, i) {
       if (bin.length > 0) {
         const avgRating = d3.mean(bin, d => d.avg_rating);
@@ -99,10 +100,18 @@ function histogram(data, el, numBins=50, options={width: 1000, height: 500}) {
     .append('rect')
     .attr('class', 'tip-bar')
     .attr('x', d => xscale(d.x0))
-    .attr('y', 150)
+    .attr('y', 0)
     .attr('width', binSize - 1)
     .attr('height', options.height)
     .attr('opacity', 0)
-    .on('mouseover', tip.show)
-    .on('mouseout', tip.hide);
+    .on('mouseover', function(d, i) {
+      // Show the tooltip and highlight the bin
+      tip.show(d, i);
+      d3.select(this).attr('opacity', 0.1);
+    })
+    .on('mouseout', function(d, i) {
+      // Hide the tooltip and bin
+      tip.hide(d, i)
+      d3.select(this).attr('opacity', 0);
+    });
 }

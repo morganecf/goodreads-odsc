@@ -76,7 +76,7 @@ function network(data) {
     const overlapExtent = d3.extent(data.edges, d => d.overlap_size);
     return function(edge) {
       return ((edge.overlap_size - overlapExtent[0]) / (overlapExtent[1] - overlapExtent[0])) > (percentile / 100);
-    }
+    };
   }
 
   // Try varying this number to see its effect on the network.

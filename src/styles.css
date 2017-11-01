@@ -6,8 +6,14 @@ body {
   text-align: center;
 }
 
+.main section  {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .main ul {
-  list-style-type: none;
+  list-style-type: upper-roman;
 }
 
 .main li {
