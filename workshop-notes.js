@@ -106,3 +106,13 @@ axisSvg = svg.append('g').call(axis)
 
 // translate it down by 400 px
 axisSvg.attr('transform', 'translate(0, 400)')
+
+// change domain
+scale.domain([50, 100])
+
+// update axis by animating/transitioning it
+axisSvg.transition().duration(2000).delay(1000).call(axis)
+
+// repeat
+scale.domain([100, 1000])
+axisSvg.transition().duration(2000).delay(1000).call(axis)
