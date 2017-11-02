@@ -1,3 +1,4 @@
+// bar chart data
 data = [
   ['the republic', 5093],
   ['the prince', 3253],
@@ -10,7 +11,7 @@ data = [
   ['being and time', 1704],
 ];
 
-// Weather: https://darksky.net/forecast/37.7793,-122.4192/us12/en
+// Line data (weather from https://darksky.net/forecast/37.7793,-122.4192/us12/en)
 data = [
   {low: 50, high: 66, date: new Date('Nov 1 2017')},
   {low: 51, high: 62, date: new Date('Nov 2 2017')},
@@ -21,4 +22,28 @@ data = [
   {low: 47, high: 59, date: new Date('Nov 7 2017')},
   {low: 49, high: 59, date: new Date('Nov 8 2017')},
   {low: 50, high: 66, date: new Date('Nov 9 2017')},
+];
+
+// force data (ethanol structure)
+nodes = [
+  {name: 'H1', color: 'red', r: 5},
+  {name: 'H2', color: 'red', r: 5},
+  {name: 'H3', color: 'red', r: 5},
+  {name: 'H4', color: 'red', r: 5},
+  {name: 'H5', color: 'red', r: 5},
+  {name: 'H6', color: 'red', r: 5},
+  {name: 'C1', color: 'black', r: 15},
+  {name: 'C2', color: 'black', r: 15},
+  {name: 'O', color: 'blue', r: 10},
+];
+
+edges = [
+  {source: 'C1', target: 'H1'},
+  {source: 'C1', target: 'H2'},
+  {source: 'C1', target: 'H3'},
+  {source: 'C2', target: 'H4'},
+  {source: 'C2', target: 'H5'},
+  {source: 'C1', target: 'C2'},
+  {source: 'C2', target: 'O'},
+  {source: 'O', target: 'H6'},
 ];
