@@ -55,10 +55,30 @@ circle = svg.selectAll('circle').data(newData, d => d.color);
 circle.exit().data()
 
 // we should see all new elemeents (Red and green) in the enter selection
-  circle.enter().data()
+circle.enter().data()
 
   // remove old elements
-  circle.exit().remove()
+circle.exit().remove()
 
   // add new elements
-  circle.enter().append("circle").attr('r', d => d.r).attr('fill', d => d.color).attr('cy', 50).attr('cx', (d, i) => 50 + i * 50)
+circle.enter().append("circle").attr('r', d => d.r).attr('fill', d => d.color).attr('cy', 50).attr('cx', (d, i) => 50 + i * 50)
+
+// Add a new element and remove the first element
+newData.push({color: 'pink', r: 20})
+newData.shift()
+
+// Bind data again
+circle = svg.selectAll('circle').data(newData, d => d.color);
+
+// old elements shouldbe in exit selection (red)
+circle.exit().data()
+
+// new elements should be in enter selection (pink)
+circle.enter().data()
+
+// remove red el
+circle.exit().remove()
+
+// add new elements and MERGE with the existing elements we want remaining (green)
+// so that the updates are relative to the entire data, not just new elements
+circle.enter().append("circle").merge(circle).attr('r', d => d.r).attr('fill', d => d.color).attr('cy', 50).attr('cx', (d, i) => 50 + i * 50)
