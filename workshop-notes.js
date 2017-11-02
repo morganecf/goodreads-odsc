@@ -291,3 +291,76 @@ svg.append('path')
   .attr('d', line)
   .attr('stroke', 'red')
   .attr('fill', 'none')
+
+  /**
+   * Force layout example
+   */
+
+  // force data (ethanol structure)
+  nodes = [
+    {name: 'H1', color: 'red', r: 5},
+    {name: 'H2', color: 'red', r: 5},
+    {name: 'H3', color: 'red', r: 5},
+    {name: 'H4', color: 'red', r: 5},
+    {name: 'H5', color: 'red', r: 5},
+    {name: 'H6', color: 'red', r: 5},
+    {name: 'C1', color: 'black', r: 15},
+    {name: 'C2', color: 'black', r: 15},
+    {name: 'O', color: 'blue', r: 10},
+  ];
+
+  edges = [
+    {source: 'C1', target: 'H1'},
+    {source: 'C1', target: 'H2'},
+    {source: 'C1', target: 'H3'},
+    {source: 'C2', target: 'H4'},
+    {source: 'C2', target: 'H5'},
+    {source: 'C1', target: 'C2'},
+    {source: 'C2', target: 'O'},
+    {source: 'O', target: 'H6'},
+  ];
+
+  const network = d3.forceLink().id(d => d.name);
+  const charge = d3.forceManyBody().strength(-50);
+  const center = d3.forceCenter(250, 250);
+
+  const simulation = d3.forceSimulation();
+
+  simulation
+    .force('link', network)
+    .force('charge', charge)
+    .force('center', center);
+  
+  var svg = d3.select('.chart-container')
+    .append('svg')
+    .attr('width', 500)
+    .attr('height', 500);
+  
+  link = svg.selectAll('line')
+    .data(edges)
+    .enter()
+    .append('line')
+    .attr('stroke', '#aaa');
+  
+  node = svg.selectAll('circle')
+    .data(nodes)
+    .enter()
+    .append('circle')
+    .attr('r', d => d.r)
+    .attr('fill', d => d.color);
+
+  
+  function tick() {
+    node
+      .attr('cx', d => d.x)
+      .attr('cy', d => d.y);
+    
+    link
+      .attr('x1', d => d.source.x)
+      .attr('x2', d => d.target.x)
+      .attr('y1', d => d.source.y)
+      .attr('y2', d => d.target.y);
+  }
+
+  simulation.nodes(nodes).on('tick', tick);
+  simulation.force('link').links(edges);
