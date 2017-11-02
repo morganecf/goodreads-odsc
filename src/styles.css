@@ -13,7 +13,8 @@ body {
 }
 
 .main ul {
-  list-style-type: upper-roman;
+  list-style-type: none;
+  padding-left: 0;
 }
 
 .main li {
