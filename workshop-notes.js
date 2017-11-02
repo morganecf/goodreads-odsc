@@ -82,3 +82,27 @@ circle.exit().remove()
 // add new elements and MERGE with the existing elements we want remaining (green)
 // so that the updates are relative to the entire data, not just new elements
 circle.enter().append("circle").merge(circle).attr('r', d => d.r).attr('fill', d => d.color).attr('cy', 50).attr('cx', (d, i) => 50 + i * 50)
+
+
+// SCALES & AXES
+
+// create a linear scale
+scale = d3.scaleLinear().domain([0, 100]).range([50, 400])
+
+// test it out
+scale(0)
+scale(10)
+scale(100)
+
+// create an axis-generating function
+axis = d3.axisBottom()
+// initialize it with the scale
+axis.scale(scale)
+
+// axis generating function is going to draw a bunch of elements for the
+// axis line and ticks and tick values. let's draw all of these in a group
+// element. this is basically equivalent to calling axis(svg.append('g'))
+axisSvg = svg.append('g').call(axis)
+
+// translate it down by 400 px
+axisSvg.attr('transform', 'translate(0, 400)')
