@@ -125,3 +125,44 @@ axisSvg.call(axis)
 formatter = d3.format('$')
 axis.tickFormat(formatter)
 axisSvg.call(axis)
+
+// scatter plot: number of ratings vs. average rating
+// # of ratings on x-axis
+// avg rating on y-axis
+
+// book, # of ratings, average rating
+data = [
+  ['the republic', 5093, 3.5],
+  ['the prince', 3253, 3],
+  ['the stranger', 3121, 3.3],
+  ['zen', 2932, 2],
+  ['the art of war', 2348, 3],
+  ['a history of western philosophy', 2270, 4.1],
+  ['siddhartha', 2248, 3.2],
+  ['being and nothingness', 1722, 5],
+  ['being and time', 1704, 4.7],
+];
+
+xscale = d3.scaleLinear()
+
+// finds min and max of data along the x-axis
+xdomain = d3.extent(data, d => d[1])
+
+// ratinsg range between 0 and 5
+ydomain = [0, 5]
+xscale.domain(xdomain).range([50, 500])
+
+// do [400, 0] instead of [0, 400] since the pixel coordinate system
+// is inverted along the y-axis (from the typical cartesian coordinate system)
+// ie., 0,0 is at top left corner
+yscale = d3.scaleLinear().domain(ydomain).range([400, 0])
+
+xaxis = d3.axisBottom().scale(xscale)
+yaxis = d3.axisLeft().scale(yscale)
+
+// draw axes
+xaxisSvg = svg.append('g').attr('transform', 'translate(0, 400)')
+xaxisSvg.call(xaxis)
+
+yaxisSvg = svg.append('g').attr('transform', 'translate(50, 0)').call(yaxis)
+yaxisSvg.call(yaxis)
