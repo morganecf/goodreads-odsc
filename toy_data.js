@@ -1,0 +1,24 @@
+data = [
+  ['the republic', 5093],
+  ['the prince', 3253],
+  ['the stranger', 3121],
+  ['zen', 2932],
+  ['the art of war', 2348],
+  ['a history of western philosophy', 2270],
+  ['siddhartha', 2248],
+  ['being and nothingness', 1722],
+  ['being and time', 1704],
+];
+
+// Weather: https://darksky.net/forecast/37.7793,-122.4192/us12/en
+data = [
+  {low: 50, high: 66, date: new Date('Nov 1 2017')},
+  {low: 51, high: 62, date: new Date('Nov 2 2017')},
+  {low: 55, high: 60, date: new Date('Nov 3 2017')},
+  {low: 50, high: 57, date: new Date('Nov 4 2017')},
+  {low: 48, high: 57, date: new Date('Nov 5 2017')},
+  {low: 49, high: 58, date: new Date('Nov 6 2017')},
+  {low: 47, high: 59, date: new Date('Nov 7 2017')},
+  {low: 49, high: 59, date: new Date('Nov 8 2017')},
+  {low: 50, high: 66, date: new Date('Nov 9 2017')},
+];
