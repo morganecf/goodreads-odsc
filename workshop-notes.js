@@ -166,3 +166,5 @@ xaxisSvg.call(xaxis)
 
 yaxisSvg = svg.append('g').attr('transform', 'translate(50, 0)').call(yaxis)
 yaxisSvg.call(yaxis)
+
+point = svg.selectAll('circle').data(data).enter().append('circle').attr('r', 10).attr('cx', d => xscale(d[1])).attr('cy', d => yscale(d[2])).attr('fill', 'purple')
