@@ -116,3 +116,12 @@ axisSvg.transition().duration(2000).delay(1000).call(axis)
 // repeat
 scale.domain([100, 1000])
 axisSvg.transition().duration(2000).delay(1000).call(axis)
+
+// set your own tick values and update
+axis.tickValues([100, 1000])
+axisSvg.call(axis)
+
+// set your own tick formatting
+formatter = d3.format('$')
+axis.tickFormat(formatter)
+axisSvg.call(axis)
