@@ -44,3 +44,21 @@ circle.enter()
   .attr('fill', d => d.color)
   .attr('cy', 50)
   .attr('cx', (d, i) => 50 + i * 50)
+
+  // new data -- two new elements, no old elements remain
+  newData = [{color: 'red', r: 10}, {color: 'green', r: 10}]
+
+  // bindnew data
+circle = svg.selectAll('circle').data(newData, d => d.color);
+
+// we should see all the previous elements in our exit selection
+circle.exit().data()
+
+// we should see all new elemeents (Red and green) in the enter selection
+  circle.enter().data()
+
+  // remove old elements
+  circle.exit().remove()
+
+  // add new elements
+  circle.enter().append("circle").attr('r', d => d.r).attr('fill', d => d.color).attr('cy', 50).attr('cx', (d, i) => 50 + i * 50)
