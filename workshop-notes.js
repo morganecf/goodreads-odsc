@@ -167,4 +167,127 @@ xaxisSvg.call(xaxis)
 yaxisSvg = svg.append('g').attr('transform', 'translate(50, 0)').call(yaxis)
 yaxisSvg.call(yaxis)
 
+// draw the circles
 point = svg.selectAll('circle').data(data).enter().append('circle').attr('r', 10).attr('cx', d => xscale(d[1])).attr('cy', d => yscale(d[2])).attr('fill', 'purple')
+
+/**
+ * Bar chart example
+ */
+var svg = d3.select('.chart-container')
+.append('svg')
+.attr('width', 500)
+.attr('height', 500);
+
+const data = [
+  ['the republic', 5093, 3.5],
+  ['the prince', 3253, 3],
+  ['the stranger', 3121, 3.3],
+  ['zen', 2932, 2],
+  ['the art of war', 2348, 3],
+  ['a history of western philosophy', 2270, 4.1],
+  ['siddhartha', 2248, 3.2],
+  ['being and nothingness', 1722, 5],
+  ['being and time', 1704, 4.7],
+];
+
+const xScale = d3.scaleLinear()
+  .domain([1500, 5500])
+  .range([100, 500]);
+
+const yScale = d3.scaleBand()
+  .domain(data.map(d => d[0]))
+  .range([0, 450])
+  .padding(0.1)
+
+const colorScale = d3.scaleLinear()
+  .domain([3, 5])
+  .range([d3.rgb('blue'), d3.rgb('red')])
+  .interpolate(d3.interpolateRgb)
+
+const xAxis = d3.axisBottom().scale(xScale);
+
+const yAxis = d3.axisLeft().scale(yScale);
+
+const xAxisSvg = svg.append('g')
+  .attr('transform', 'translate(0, 450)')
+  .call(xAxis);
+
+const yAxisSvg = svg.append('g')
+  .attr('transform', 'translate(100,0)')
+  .call(yAxis);
+
+svg.selectAll('rect')
+  .data(data)
+  .enter()
+  .append('rect')
+  .attr('x', 100)
+  .attr('y', d => yScale(d[0]))
+  .attr('height', yScale.bandwidth())
+  .attr('width', d => xScale(d[1]))
+  .attr('fill', d => colorScale(d[2]))
+
+/**
+ * Line example
+ */
+var svg = d3.select('.chart-container')
+.append('svg')
+.attr('width', 500)
+.attr('height', 500);
+
+data = [
+  {low: 50, high: 66, date: new Date('Nov 1 2017')},
+  {low: 51, high: 62, date: new Date('Nov 2 2017')},
+  {low: 55, high: 60, date: new Date('Nov 3 2017')},
+  {low: 50, high: 57, date: new Date('Nov 4 2017')},
+  {low: 48, high: 57, date: new Date('Nov 5 2017')},
+  {low: 49, high: 58, date: new Date('Nov 6 2017')},
+  {low: 47, high: 59, date: new Date('Nov 7 2017')},
+  {low: 49, high: 59, date: new Date('Nov 8 2017')},
+  {low: 50, high: 66, date: new Date('Nov 9 2017')},
+];
+
+const xScale = d3.scaleTime()
+  .domain(d3.extent(data, d => d.date))
+  .range([50, 500])
+
+const yScale = d3.scaleLinear()
+  .domain([40, 80])
+  .range([450, 0])
+
+const xAxis = d3.axisBottom().scale(xScale);
+
+const yAxis = d3.axisLeft().scale(yScale);
+
+svg.append('g')
+  .attr('transform', 'translate(0,450)')
+  .call(xAxis);
+
+svg.append('g')
+  .attr('transform', 'translate(50, 0)')
+  .call(yAxis)
+
+const lowTemperatures = data.map(d => ({
+  date: d.date,
+  temp: d.low
+}));
+const highTemperatures = data.map(d => ({
+  temp: d.high,
+  date: d.date
+}));
+
+const line = d3.line()
+  .x(d => xScale(d.date))
+  .y(d => yScale(d.temp))
+  .curve(d3.curveStep);
+
+svg.append('path')
+  .datum(lowTemperatures)
+  .attr('d', line)
+  .attr('stroke', 'blue')
+  .attr('fill', 'none')
+
+  svg.append('path')
+  .datum(highTemperatures)
+  .attr('d', line)
+  .attr('stroke', 'red')
+  .attr('fill', 'none')
