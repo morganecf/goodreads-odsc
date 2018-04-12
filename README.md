@@ -1,7 +1,7 @@
 # Introduction to D3
 
-Example code and data for the "Introduction to Data Visualization Using D3.js" workshop at
-the 2017 [Open Data Science Conference West](https://odsc.com/california).
+Example code and data for the "Visualizing Data with D3.js" workshop at
+the 2017 and 2018 [Open Data Science Conference](https://kyiv.odsc.com/).
 
 **IMPORTANT UPDATE:** We will be adding code and data to this repository for the next couple of days. Please make sure your repository is up to date before the conference.
 
