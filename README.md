@@ -3,8 +3,6 @@
 Example code and data for the "Visualizing Data with D3.js" workshop at
 the 2017 and 2018 [Open Data Science Conference](https://kyiv.odsc.com/).
 
-**IMPORTANT UPDATE:** We will be adding code and data to this repository for the next couple of days. Please make sure your repository is up to date before the conference.
-
 ### Requirements
 Python (or a tool that will allow you to run a local web server) and a modern browser. We'll be using Chrome.
 You can follow along without a server, but we strongly recommend you follow the instructions for serving files
