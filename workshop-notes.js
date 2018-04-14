@@ -16,9 +16,21 @@ circle.attr("opacity", 0.5)
 circle.transition().duration(2000).delay(1000).attr('opacity', 1).attr('r', 100)
 circle.transition().duration(2000).delay(1000).attr('opacity', 1).attr('r', 500)
 
+// demonstrate ease
+circle.transition().duration(2500).ease(d3.easeBounce).attr('cy', 500)
+
 // remove the circle from the DOM
 circle.remove()
 
+// do something like make it blink
+function blink(opacity, r) {
+  circle
+    .transition()
+    .duration(500)
+    .attr('opacity', Number(opacity))
+    .attr('r', Number(r))
+    .on('end', () => blink(!opacity, !r));
+}
 
 // Create some toy data
 data = [{color: 'yellow', r: 5}, {color: 'blue', r: 10}, {color: 'purple', r: 15}];
@@ -45,8 +57,8 @@ circle.enter()
   .attr('cy', 50)
   .attr('cx', (d, i) => 50 + i * 50)
 
-  // new data -- two new elements, no old elements remain
-  newData = [{color: 'red', r: 10}, {color: 'green', r: 10}]
+// new data -- two new elements, no old elements remain
+newData = [{color: 'red', r: 10}, {color: 'green', r: 10}]
 
   // bindnew data
 circle = svg.selectAll('circle').data(newData, d => d.color);
@@ -235,15 +247,15 @@ var svg = d3.select('.chart-container')
 .attr('height', 500);
 
 data = [
-  {low: 50, high: 66, date: new Date('Nov 1 2017')},
-  {low: 51, high: 62, date: new Date('Nov 2 2017')},
-  {low: 55, high: 60, date: new Date('Nov 3 2017')},
-  {low: 50, high: 57, date: new Date('Nov 4 2017')},
-  {low: 48, high: 57, date: new Date('Nov 5 2017')},
-  {low: 49, high: 58, date: new Date('Nov 6 2017')},
-  {low: 47, high: 59, date: new Date('Nov 7 2017')},
-  {low: 49, high: 59, date: new Date('Nov 8 2017')},
-  {low: 50, high: 66, date: new Date('Nov 9 2017')},
+  {low: 50, high: 66, date: new Date('April 1 2018')},
+  {low: 51, high: 62, date: new Date('April 2 2018')},
+  {low: 55, high: 60, date: new Date('April 3 2018')},
+  {low: 50, high: 57, date: new Date('April 4 2018')},
+  {low: 48, high: 57, date: new Date('April 5 2018')},
+  {low: 49, high: 58, date: new Date('April 6 2018')},
+  {low: 47, high: 59, date: new Date('April 7 2018')},
+  {low: 49, high: 59, date: new Date('April 8 2018')},
+  {low: 50, high: 66, date: new Date('April 9 2018')},
 ];
 
 const xScale = d3.scaleTime()
@@ -259,7 +271,7 @@ const xAxis = d3.axisBottom().scale(xScale);
 const yAxis = d3.axisLeft().scale(yScale);
 
 svg.append('g')
-  .attr('transform', 'translate(0,450)')
+  .attr('transform', 'translate(0, 450)')
   .call(xAxis);
 
 svg.append('g')
@@ -280,6 +292,7 @@ const line = d3.line()
   .y(d => yScale(d.temp))
   .curve(d3.curveStep);
 
+// Datum is like data except for when you want to bind data to a SINGLE element
 svg.append('path')
   .datum(lowTemperatures)
   .attr('d', line)
@@ -292,75 +305,96 @@ svg.append('path')
   .attr('stroke', 'red')
   .attr('fill', 'none')
 
-  /**
-   * Force layout example
-   */
+/**
+ * Force layout example
+ */
 
-  // force data (ethanol structure)
-  nodes = [
-    {name: 'H1', color: 'red', r: 5},
-    {name: 'H2', color: 'red', r: 5},
-    {name: 'H3', color: 'red', r: 5},
-    {name: 'H4', color: 'red', r: 5},
-    {name: 'H5', color: 'red', r: 5},
-    {name: 'H6', color: 'red', r: 5},
-    {name: 'C1', color: 'black', r: 15},
-    {name: 'C2', color: 'black', r: 15},
-    {name: 'O', color: 'blue', r: 10},
-  ];
+// force data (ethanol structure)
+nodes = [
+  {name: 'H1', color: 'red', r: 5},
+  {name: 'H2', color: 'red', r: 5},
+  {name: 'H3', color: 'red', r: 5},
+  {name: 'H4', color: 'red', r: 5},
+  {name: 'H5', color: 'red', r: 5},
+  {name: 'H6', color: 'red', r: 5},
+  {name: 'C1', color: 'black', r: 15},
+  {name: 'C2', color: 'black', r: 15},
+  {name: 'O', color: 'blue', r: 10},
+];
 
-  edges = [
-    {source: 'C1', target: 'H1'},
-    {source: 'C1', target: 'H2'},
-    {source: 'C1', target: 'H3'},
-    {source: 'C2', target: 'H4'},
-    {source: 'C2', target: 'H5'},
-    {source: 'C1', target: 'C2'},
-    {source: 'C2', target: 'O'},
-    {source: 'O', target: 'H6'},
-  ];
+edges = [
+  {source: 'C1', target: 'H1'},
+  {source: 'C1', target: 'H2'},
+  {source: 'C1', target: 'H3'},
+  {source: 'C2', target: 'H4'},
+  {source: 'C2', target: 'H5'},
+  {source: 'C1', target: 'C2'},
+  {source: 'C2', target: 'O'},
+  {source: 'O', target: 'H6'},
+];
 
-  const network = d3.forceLink().id(d => d.name);
-  const charge = d3.forceManyBody().strength(-50);
-  const center = d3.forceCenter(250, 250);
+// Remember that a force layout is a set of forces acting
+// on set of particles or nodes. So the first thing we 
+// want to do is initialize a set of forces.
 
-  const simulation = d3.forceSimulation();
+// The link force,
+// the force that pushes nodes together or apart, is going
+// to essentially control the network aspect of the layout,
+// so it's going to enable us to have nodes linked together
+// by edges. The id attribute tells us what determines each
+// node, so that H1, H2, etc will all be separate nodes
+// inside the ethanol structure.
+const network = d3.forceLink().id(d => d.name);
 
-  simulation
-    .force('link', network)
-    .force('charge', charge)
-    .force('center', center);
+// The ManyBody force is going to simulate a sort of gravity,
+// or a force of attraction, between each node, and we're going
+// to give it a negative charge so that the nodes repel each
+// other a bit instead of clustering close together. 
+const charge = d3.forceManyBody().strength(-50);
+
+// The center force is going to create a center of mass so that
+// the network is centered.
+const center = d3.forceCenter(250, 250);
+
+// And finally we want to create a simulation that will apply
+// all of these forces.
+const simulation = d3.forceSimulation();
+
+simulation
+  .force('link', network)
+  .force('charge', charge)
+  .force('center', center);
+
+var svg = d3.select('.chart-container')
+  .append('svg')
+  .attr('width', 500)
+  .attr('height', 500);
+
+link = svg.selectAll('line')
+  .data(edges)
+  .enter()
+  .append('line')
+  .attr('stroke', '#aaa');
+
+node = svg.selectAll('circle')
+  .data(nodes)
+  .enter()
+  .append('circle')
+  .attr('r', d => d.r)
+  .attr('fill', d => d.color);
+
+
+function tick() {
+  node
+    .attr('cx', d => d.x)
+    .attr('cy', d => d.y);
   
-  var svg = d3.select('.chart-container')
-    .append('svg')
-    .attr('width', 500)
-    .attr('height', 500);
-  
-  link = svg.selectAll('line')
-    .data(edges)
-    .enter()
-    .append('line')
-    .attr('stroke', '#aaa');
-  
-  node = svg.selectAll('circle')
-    .data(nodes)
-    .enter()
-    .append('circle')
-    .attr('r', d => d.r)
-    .attr('fill', d => d.color);
+  link
+    .attr('x1', d => d.source.x)
+    .attr('x2', d => d.target.x)
+    .attr('y1', d => d.source.y)
+    .attr('y2', d => d.target.y);
+}
 
-  
-  function tick() {
-    node
-      .attr('cx', d => d.x)
-      .attr('cy', d => d.y);
-    
-    link
-      .attr('x1', d => d.source.x)
-      .attr('x2', d => d.target.x)
-      .attr('y1', d => d.source.y)
-      .attr('y2', d => d.target.y);
-  }
-
-  simulation.nodes(nodes).on('tick', tick);
-  simulation.force('link').links(edges);
+simulation.nodes(nodes).on('tick', tick);
+simulation.force('link').links(edges);
